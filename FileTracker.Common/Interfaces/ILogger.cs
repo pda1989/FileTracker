@@ -11,5 +11,7 @@ namespace FileTracker.Common.Interfaces
         void Error(string message);
 
         void Info(string message);
+
+        void Warning(string message);
     }
 }

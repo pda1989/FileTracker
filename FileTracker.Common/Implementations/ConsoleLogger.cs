@@ -27,6 +27,11 @@ namespace FileTracker.Common.Implementations
             WriteMessage("INF", message);
         }
 
+        public void Warning(string message)
+        {
+            WriteMessage("WRN", message);
+        }
+
         private void WriteMessage(string logLevel, string message)
         {
             Console.WriteLine(MessageMask, DateTime.UtcNow, logLevel, message);

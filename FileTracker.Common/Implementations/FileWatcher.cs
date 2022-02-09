@@ -6,14 +6,16 @@ namespace FileTracker.Common.Implementations
 {
     public class FileWatcher : IFileWatcher
     {
+        private readonly IChangeTracker _changeTracker;
         private readonly IFile _fileIo;
         private readonly ILogger _logger;
         private FileSystemWatcher _watcher;
 
-        public FileWatcher(ILogger logger, IFile fileIo)
+        public FileWatcher(ILogger logger, IFile fileIo, IChangeTracker changeTracker)
         {
             _logger = logger;
             _fileIo = fileIo;
+            _changeTracker = changeTracker;
         }
 
         public void Dispose()
@@ -33,6 +35,8 @@ namespace FileTracker.Common.Implementations
                 _logger.Error("The file tracker is already running");
                 return;
             }
+
+            InitFiles(path, mask);
 
             _logger.Info("Start the file tracker");
             _logger.Debug($"  File path: '{path}'");
@@ -54,12 +58,20 @@ namespace FileTracker.Common.Implementations
             _watcher.Error += OnError;
         }
 
+        private void InitFiles(string path, string mask)
+        {
+            _changeTracker.AddFiles(path, mask);
+        }
+
         private void OnChanged(object sender, FileSystemEventArgs e)
         {
             if (e.ChangeType != WatcherChangeTypes.Changed)
                 return;
 
+            var delta = _changeTracker.GetDelta(e.FullPath);
+
             _logger.Info($"The file '{e.FullPath}' has been changed");
+            _logger.Debug($"  Delta '{delta}'");
         }
 
         private void OnError(object sender, ErrorEventArgs e)
