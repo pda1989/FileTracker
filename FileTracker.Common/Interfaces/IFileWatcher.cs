@@ -1,11 +1,14 @@
-﻿using System;
+﻿using FileTracker.Common.Models;
+using System;
 
 namespace FileTracker.Common.Interfaces
 {
     public interface IFileWatcher : IDisposable
     {
+        event EventHandler<FileWatcherEventArgs> OnFileChanged;
+
         void StopWatching();
 
-        void WatchFile(string path, string mask);
+        void WatchFiles(string path, string mask);
     }
 }

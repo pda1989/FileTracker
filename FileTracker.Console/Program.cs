@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FileTracker.Common.Implementations;
 using FileTracker.Common.Interfaces;
+using FileTracker.Common.Models;
 
 namespace FileTracker.Console
 {
@@ -23,7 +24,8 @@ namespace FileTracker.Console
                     if (line.Equals("start", System.StringComparison.OrdinalIgnoreCase))
                     {
                         var settings = Bootstraper.Container.Resolve<ISettings>();
-                        watcher.WatchFile(settings.FilePath, settings.FileMask);
+                        watcher.WatchFiles(settings.FilePath, settings.FileMask);
+                        watcher.OnFileChanged += OnFileChanged;
                     }
 
                     if (line.Equals("stop", System.StringComparison.OrdinalIgnoreCase))
@@ -32,6 +34,12 @@ namespace FileTracker.Console
                     }
                 }
             }
+        }
+
+        private static void OnFileChanged(object sender, FileWatcherEventArgs e)
+        {
+            if (e?.AddedContent?.Equals("123") ?? false)
+                System.Console.WriteLine("YES!!!");
         }
     }
 }

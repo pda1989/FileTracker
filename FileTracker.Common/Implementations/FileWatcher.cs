@@ -1,4 +1,5 @@
 ﻿using FileTracker.Common.Interfaces;
+using FileTracker.Common.Models;
 using System;
 using System.IO;
 
@@ -18,6 +19,8 @@ namespace FileTracker.Common.Implementations
             _changeTracker = changeTracker;
         }
 
+        public event EventHandler<FileWatcherEventArgs> OnFileChanged;
+
         public void Dispose()
         {
             Stop();
@@ -28,7 +31,7 @@ namespace FileTracker.Common.Implementations
             Stop();
         }
 
-        public void WatchFile(string path, string mask)
+        public void WatchFiles(string path, string mask)
         {
             if (_watcher != null)
             {
@@ -79,6 +82,8 @@ namespace FileTracker.Common.Implementations
 
             _logger.Info($"The file '{e.FullPath}' has been changed");
             _logger.Debug($"  Delta '{delta}'");
+
+            OnFileChanged?.Invoke(this, new FileWatcherEventArgs { AddedContent = delta, FileName = e.FullPath });
         }
 
         private void OnCreated(object sender, FileSystemEventArgs e)
