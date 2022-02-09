@@ -7,5 +7,7 @@
         void AddFiles(string path, string mask);
 
         string GetDelta(string path);
+
+        void RemoveFile(string path);
     }
 }

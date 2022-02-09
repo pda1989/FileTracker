@@ -7,8 +7,8 @@ namespace FileTracker.Common.Implementations
     public class ChangeTracker : IChangeTracker
     {
         private readonly IFile _fileIo;
+        private readonly Dictionary<string, long> _files = new Dictionary<string, long>();
         private readonly ILogger _logger;
-        private Dictionary<string, long> _files = new Dictionary<string, long>();
 
         public ChangeTracker(ILogger logger, IFile fileIo)
         {
@@ -28,12 +28,12 @@ namespace FileTracker.Common.Implementations
             if (_files.ContainsKey(path))
             {
                 _files[path] = fileLength;
-                _logger.Debug($"The file '{path}' has been updated. The current length: {fileLength}");
+                _logger.Debug($"The file '{path}' has been updated. The current length: {fileLength} bytes");
             }
             else
             {
                 _files.Add(path, fileLength);
-                _logger.Debug($"The file '{path}' has been added. The current length: {fileLength}");
+                _logger.Debug($"The file '{path}' has been added. The current length: {fileLength} bytes");
             }
         }
 
@@ -76,6 +76,15 @@ namespace FileTracker.Common.Implementations
             _files[path] = currentLength;
 
             return addedContent;
+        }
+
+        public void RemoveFile(string path)
+        {
+            if (_files.ContainsKey(path))
+            {
+                _files.Remove(path);
+                _logger.Debug($"The file '{path}' has been removed");
+            }
         }
 
         private static long GetLength(string path)

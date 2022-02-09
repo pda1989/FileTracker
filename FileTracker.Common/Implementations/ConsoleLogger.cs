@@ -1,5 +1,6 @@
 ﻿using FileTracker.Common.Interfaces;
 using System;
+using System.Globalization;
 
 namespace FileTracker.Common.Implementations
 {
@@ -34,7 +35,9 @@ namespace FileTracker.Common.Implementations
 
         private void WriteMessage(string logLevel, string message)
         {
-            Console.WriteLine(MessageMask, DateTime.UtcNow, logLevel, message);
+            string timestamp = DateTime.UtcNow.ToString("dd-MM-yyyy HH:mm:ss.fff", CultureInfo.InvariantCulture);
+
+            Console.WriteLine(MessageMask, timestamp, logLevel, message);
         }
     }
 }
