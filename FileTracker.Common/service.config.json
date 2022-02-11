@@ -1,4 +1,5 @@
 ﻿{
   "FilePath": "C:\\Projects",
-  "FileMask": "*.txt"
+  "FileMask": "*.txt",
+  "RegexFilter": ".*(123).*"
 }
