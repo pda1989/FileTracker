@@ -20,7 +20,7 @@ namespace FileTracker.Common.Implementations
         {
             if (!_fileIo.FileExists(path))
             {
-                _logger.Warning($"It's not possible to add file. The file '{path}' doesn't exist");
+                _logger.Warning($"It's not possible to track file. The file '{path}' doesn't exist");
                 return;
             }
 
@@ -28,12 +28,12 @@ namespace FileTracker.Common.Implementations
             if (_files.ContainsKey(path))
             {
                 _files[path] = fileLength;
-                _logger.Debug($"The file '{path}' has been updated. The current length: {fileLength} bytes");
+                _logger.Debug($"The file '{path}' has been updated for tracking. The current length: {fileLength} bytes");
             }
             else
             {
                 _files.Add(path, fileLength);
-                _logger.Debug($"The file '{path}' has been added. The current length: {fileLength} bytes");
+                _logger.Debug($"The file '{path}' has been added for tracking. The current length: {fileLength} bytes");
             }
         }
 
@@ -54,7 +54,7 @@ namespace FileTracker.Common.Implementations
 
             if (!_files.ContainsKey(path))
             {
-                _logger.Warning($"The file '{path}' is not added for tracking changes");
+                _logger.Warning($"The file '{path}' is not added for tracking");
                 return string.Empty;
             }
 
@@ -75,6 +75,9 @@ namespace FileTracker.Common.Implementations
 
             _files[path] = currentLength;
 
+            if (!string.IsNullOrEmpty(addedContent))
+                _logger.Debug($"  Added content: '{addedContent}'");
+
             return addedContent;
         }
 
@@ -83,7 +86,7 @@ namespace FileTracker.Common.Implementations
             if (_files.ContainsKey(path))
             {
                 _files.Remove(path);
-                _logger.Debug($"The file '{path}' has been removed");
+                _logger.Debug($"The file '{path}' has been removed from tracking");
             }
         }
 

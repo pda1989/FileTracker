@@ -38,8 +38,6 @@ namespace FileTracker.Common.Implementations
                 property.SetValue(_settings, value);
                 _logger.Debug($"  Property: '{property.Name}' Value: '{value}'");
             }
-
-            _logger.Info("Settings have been initialized");
         }
     }
 }

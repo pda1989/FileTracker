@@ -35,11 +35,11 @@ namespace FileTracker.Common.Implementations
         {
             if (_watcher != null)
             {
-                _logger.Error("The file tracker is already running");
+                _logger.Error("The file watcher is already running");
                 return;
             }
 
-            _logger.Info("Start the file tracker");
+            _logger.Info("Start the file watcher");
             _logger.Debug($"  File path: '{path}'");
             _logger.Debug($"  File mask: '{mask}'");
 
@@ -81,7 +81,6 @@ namespace FileTracker.Common.Implementations
             var delta = _changeTracker.GetDelta(e.FullPath);
 
             _logger.Info($"The file '{e.FullPath}' has been changed");
-            _logger.Debug($"  Delta '{delta}'");
 
             OnFileChanged?.Invoke(this, new FileWatcherEventArgs { AddedContent = delta, FileName = e.FullPath });
         }
@@ -92,6 +91,8 @@ namespace FileTracker.Common.Implementations
                 return;
 
             _changeTracker.AddFile(e.FullPath);
+
+            _logger.Info($"The file '{e.FullPath}' has been created");
         }
 
         private void OnDeleted(object sender, FileSystemEventArgs e)
@@ -100,6 +101,8 @@ namespace FileTracker.Common.Implementations
                 return;
 
             _changeTracker.RemoveFile(e.FullPath);
+
+            _logger.Info($"The file '{e.FullPath}' has been removed");
         }
 
         private void OnError(object sender, ErrorEventArgs e)
@@ -116,13 +119,15 @@ namespace FileTracker.Common.Implementations
 
             _changeTracker.RemoveFile(e.OldFullPath);
             _changeTracker.AddFile(e.FullPath);
+
+            _logger.Info($"The file '{e.OldFullPath}' has been renamed to '{e.FullPath}'");
         }
 
         private void Stop()
         {
             _watcher?.Dispose();
             _watcher = null;
-            _logger.Info("The file tracker has been stoped");
+            _logger.Info("The file watcher has been stoped");
         }
     }
 }

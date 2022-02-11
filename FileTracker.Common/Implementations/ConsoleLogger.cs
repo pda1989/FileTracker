@@ -10,17 +10,23 @@ namespace FileTracker.Common.Implementations
 
         public void Debug(string message)
         {
+            Console.ForegroundColor = ConsoleColor.DarkGray;
             WriteMessage("DBG", message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void Error(Exception exception, string message)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             WriteMessage("ERR", message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void Error(string message)
         {
+            Console.ForegroundColor = ConsoleColor.Red;
             WriteMessage("ERR", message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         public void Info(string message)
@@ -30,7 +36,9 @@ namespace FileTracker.Common.Implementations
 
         public void Warning(string message)
         {
+            Console.ForegroundColor = ConsoleColor.Yellow;
             WriteMessage("WRN", message);
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
 
         private void WriteMessage(string logLevel, string message)
