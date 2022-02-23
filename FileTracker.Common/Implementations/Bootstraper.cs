@@ -28,6 +28,7 @@ namespace FileTracker.Common.Implementations
             builder.RegisterType<ConsoleLogger>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<ChangeTracker>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<FilterManager>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<JsonSerializer>().AsImplementedInterfaces().SingleInstance();
 
             Container = builder.Build();
         }

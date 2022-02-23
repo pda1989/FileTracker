@@ -1,5 +1,4 @@
 ﻿using FileTracker.Common.Interfaces;
-using Newtonsoft.Json;
 
 namespace FileTracker.Common.Implementations
 {
@@ -9,13 +8,19 @@ namespace FileTracker.Common.Implementations
 
         private readonly IFile _fileIo;
         private readonly ILogger _logger;
+        private readonly ISerializer _serializer;
         private readonly Settings _settings;
 
-        public JsonSettingsProvider(Settings settings, IFile fileIo, ILogger logger)
+        public JsonSettingsProvider(
+            Settings settings,
+            IFile fileIo,
+            ILogger logger,
+            ISerializer serializer)
         {
             _settings = settings;
             _fileIo = fileIo;
             _logger = logger;
+            _serializer = serializer;
         }
 
         public void InitSettings()
@@ -30,7 +35,7 @@ namespace FileTracker.Common.Implementations
                 return;
             }
 
-            var settings = JsonConvert.DeserializeObject<Settings>(text);
+            var settings = _serializer.Deserialize<Settings>(text);
 
             foreach (var property in settings.GetType().GetProperties())
             {
