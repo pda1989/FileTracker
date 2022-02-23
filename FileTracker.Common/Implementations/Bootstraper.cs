@@ -30,6 +30,7 @@ namespace FileTracker.Common.Implementations
             builder.RegisterType<ChangeTracker>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<FilterManager>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonSerializer>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<WatcherReportManager>().AsImplementedInterfaces().SingleInstance();
 
             builder.RegisterType<ApiRequestBuilder>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<HttpClientWrapper>().AsImplementedInterfaces().SingleInstance();
