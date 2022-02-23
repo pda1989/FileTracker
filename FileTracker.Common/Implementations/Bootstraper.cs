@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using FileTracker.Common.Implementations.REST;
 using FileTracker.Common.Interfaces;
 using System.Threading.Tasks;
 
@@ -29,6 +30,10 @@ namespace FileTracker.Common.Implementations
             builder.RegisterType<ChangeTracker>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<FilterManager>().AsImplementedInterfaces().SingleInstance();
             builder.RegisterType<JsonSerializer>().AsImplementedInterfaces().SingleInstance();
+
+            builder.RegisterType<ApiRequestBuilder>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<HttpClientWrapper>().AsImplementedInterfaces().SingleInstance();
+            builder.RegisterType<ApiClient>().AsImplementedInterfaces().SingleInstance();
 
             Container = builder.Build();
         }

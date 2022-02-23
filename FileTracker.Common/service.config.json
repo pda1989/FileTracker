@@ -1,5 +1,7 @@
 ﻿{
   "FilePath": "C:\\Projects",
   "FileMask": "*.txt",
-  "RegexFilter": ".*(123).*"
+  "RegexFilter": ".*(123).*",
+  "EndpointUrl": "http://dela.slavia-tech.ru/shtuka",
+  "RequestTimeoutMiliseconds": 5000
 }
