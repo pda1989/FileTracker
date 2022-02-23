@@ -15,9 +15,9 @@ namespace FileTracker.WindowsService
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-        private static async void Main()
+        private static void Main()
         {
-            await InitAsync();
+            InitAsync().Wait();
 
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
